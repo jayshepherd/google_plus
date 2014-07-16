@@ -28,8 +28,18 @@ module GooglePlus
       GooglePlus::Cursor.new(self, :get, resource, params)
     end
 
-    def self.get_people(user_id, params = {})
+    # List of people in visible collection
+    # @option params [Symbol] :key A different API key to use for this request
+    # @option params [Symbol] :user_ip The IP of the user on who's behalf this request is made
+    # @return [GooglePlus::Person] an array of person objects representing people returned
+    def self.get_visible_people(user_id, params = {})
       data = make_request(:get, "people/#{user_id}/people/visible", params)
+      list = JSON.parse(data)['items']
+      people = []
+      for person in list
+        people << Person.new(person)
+      end
+      people
     end
 
     # List the activities for this person

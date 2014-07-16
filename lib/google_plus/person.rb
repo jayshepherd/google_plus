@@ -28,6 +28,10 @@ module GooglePlus
       GooglePlus::Cursor.new(self, :get, resource, params)
     end
 
+    def self.get_people(user_id, params = {})
+      data = make_request(:get, "people/#{user_id}/people/visible", params)
+    end
+
     # List the activities for this person
     # @return [GooglePlus::Cursor] a cursor of activities for this person
     def list_activities(params = {})
